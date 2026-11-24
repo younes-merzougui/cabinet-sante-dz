@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cabinet Santé DZ — Dr. Mansouri · Batna City</title>
+  <meta name="description" content="Book your medical appointment online at Cabinet Santé DZ with Dr. Mansouri in Batna City, Algeria." />
+
+  <!-- Google Fonts: Plus Jakarta Sans, Inter, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="./styles.css" />
+
+  <!-- Lucide Icons via CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="clinic-header no-print">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <i data-lucide="stethoscope"></i>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title-row">
+            <h1 class="brand-name">Cabinet Santé DZ</h1>
+            <span class="location-badge">
+              <i data-lucide="map-pin"></i>
+              <span>Dr. Mansouri · Batna City</span>
+            </span>
+          </div>
+          <p class="brand-subtitle">Médecine Générale &amp; Pédiatrie · Ouvert Sam–Jeu (Fermé Vendredi)</p>
+        </div>
+      </div>
+
+      <nav class="header-actions" aria-label="Clinic navigation">
+        <a href="#lookup-section" class="btn-ghost-link">
+          <i data-lucide="search"></i>
+          <span>Check My RDV</span>
+        </a>
+        <a href="./admin.html" class="admin-link">
+          <i data-lucide="shield-check"></i>
+          <span>Reception Admin</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container main-layout">
+    <!-- Left Column: Booking Flow OR Confirmed Appointment Slip -->
+    <div class="primary-column">
+      <!-- Booking Form Flow -->
+      <section id="booking-flow" class="booking-flow no-print" aria-label="Book an appointment">
+        <!-- Step 1: Consultation Type -->
+        <div class="card step-card">
+          <div class="step-header">
+            <span class="step-num">01</span>
+            <div>
+              <h2 class="step-title">Select Consultation Type</h2>
+              <p class="step-desc">Transparent clinic fees in Algerian Dinar (DA) · 20-minute slots</p>
+            </div>
+          </div>
+
+          <div id="consultation-grid" class="consultation-grid" role="radiogroup" aria-label="Consultation types">
+            <!-- Populated by app.js -->
+          </div>
+        </div>
+
+        <!-- Step 2: Date & Time Slot -->
+        <div class="card step-card">
+          <div class="step-header">
+            <span class="step-num">02</span>
+            <div>
+              <h2 class="step-title">Pick Date &amp; Time Slot</h2>
+              <p class="step-desc">Morning (08:30–12:00) &amp; Afternoon (13:30–17:00) · Closed Fridays</p>
+            </div>
+          </div>
+
+          <div class="date-controls">
+            <div class="quick-dates" id="quick-dates" aria-label="Upcoming open days">
+              <!-- Populated by app.js -->
+            </div>
+
+            <div class="date-input-wrap">
+              <label for="rdv-date" class="field-label">Or choose another date</label>
+              <div class="input-icon-wrap">
+                <i data-lucide="calendar"></i>
+                <input type="date" id="rdv-date" name="rdvDate" required />
+              </div>
+            </div>
+          </div>
+
+          <div id="date-alert" class="inline-alert hidden" role="status" aria-live="polite"></div>
+
+          <div class="slots-wrapper">
+            <div class="slot-legend" aria-label="Slot availability legend">
+              <span class="legend-item"><span class="dot dot-available"></span> Available</span>
+              <span class="legend-item"><span class="dot dot-selected"></span> Selected</span>
+              <span class="legend-item"><span class="dot dot-disabled"></span> Booked / Past</span>
+            </div>
+
+            <div class="slot-group">
+              <div class="slot-group-header">
+                <span class="slot-period">
+                  <i data-lucide="sunrise"></i>
+                  <span>Matin (Morning)</span>
+                </span>
+                <span class="slot-hours">08:30 – 12:00</span>
+              </div>
+              <div id="morning-slots" class="slots-grid" role="radiogroup" aria-label="Morning time slots">
+                <!-- Populated by app.js -->
+              </div>
+            </div>
+
+            <div class="slot-group">
+              <div class="slot-group-header">
+                <span class="slot-period">
+                  <i data-lucide="sun"></i>
+                  <span>Après-midi (Afternoon)</span>
+                </span>
+                <span class="slot-hours">13:30 – 17:00</span>
+              </div>
+              <div id="afternoon-slots" class="slots-grid" role="radiogroup" aria-label="Afternoon time slots">
+                <!-- Populated by app.js -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Patient Information -->
+        <form id="booking-form" class="card step-card" novalidate>
+          <div class="step-header">
+            <span class="step-num">03</span>
+            <div>
+              <h2 class="step-title">Patient Information</h2>
+              <p class="step-desc">Enter patient details to reserve your slot instantly</p>
+            </div>
+          </div>
+
+          <!-- Visit Type Toggle -->
+          <div class="form-group">
+            <span class="field-label">Visit Type</span>
+            <div class="segmented-toggle" role="radiogroup" aria-label="Visit type">
+              <button type="button" class="toggle-btn active" data-visit="First Visit" aria-pressed="true">
+                <i data-lucide="user-plus"></i>
+                <span>First Visit (1ère visite)</span>
+              </button>
+              <button type="button" class="toggle-btn" data-visit="Follow-up" aria-pressed="false">
+                <i data-lucide="refresh-cw"></i>
+                <span>Follow-up (Suivi)</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="patient-name" class="field-label">
+                Full Name <span class="required">*</span>
+              </label>
+              <input
+                type="text"
+                id="patient-name"
+                name="patientName"
+                placeholder="e.g. Amine Benali"
+                autocomplete="name"
+                required
+              />
+              <span class="field-error" id="error-name"></span>
+            </div>
+
+            <div class="form-group form-group-age">
+              <label for="patient-age" class="field-label">
+                Age <span class="required">*</span>
+              </label>
+              <input
+                type="number"
+                id="patient-age"
+                name="patientAge"
+                placeholder="e.g. 32"
+                min="0"
+                max="120"
+                required
+              />
+              <span class="field-error" id="error-age"></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="patient-phone" class="field-label">
+              Mobile Phone (Algeria 05 / 06 / 07) <span class="required">*</span>
+            </label>
+            <div class="input-icon-wrap">
+              <i data-lucide="phone"></i>
+              <input
+                type="tel"
+                id="patient-phone"
+                name="patientPhone"
+                placeholder="0550 12 34 56"
+                inputmode="numeric"
+                maxlength="14"
+                required
+              />
+            </div>
+            <span class="field-hint">10 digits starting with 05, 06, or 07</span>
+            <span class="field-error" id="error-phone"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="patient-note" class="field-label">
+              Short Note <span class="optional">(Optional)</span>
+            </label>
+            <textarea
+              id="patient-note"
+              name="patientNote"
+              rows="2"
+              maxlength="200"
+              placeholder="Briefly mention symptoms, child age, or certificate purpose..."
+            ></textarea>
+          </div>
+
+          <div id="form-global-error" class="inline-alert alert-error hidden" role="alert"></div>
+
+          <div class="submit-bar">
+            <div class="submit-summary" id="submit-summary">
+              <span class="summary-kicker">Selected Appointment</span>
+              <strong id="submit-summary-text">Select a date and time slot</strong>
+            </div>
+            <button type="submit" id="confirm-btn" class="btn-primary">
+              <i data-lucide="check-circle-2"></i>
+              <span>Confirm Appointment</span>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Confirmed Printable Appointment Slip View -->
+      <section id="confirmed-slip-section" class="hidden" aria-live="polite">
+        <div class="confirmation-banner no-print">
+          <div class="confirm-badge">
+            <i data-lucide="check-circle-2"></i>
+          </div>
+          <div>
+            <h2>Appointment Confirmed</h2>
+            <p>Your slot is reserved. Keep your reference code below for reception check-in.</p>
+          </div>
+        </div>
+
+        <article id="confirmed-slip-card" class="slip-card printable-slip">
+          <!-- Populated by app.js -->
+        </article>
+
+        <div class="slip-actions no-print">
+          <button type="button" id="print-confirmed-btn" class="btn-primary">
+            <i data-lucide="printer"></i>
+            <span>Print Appointment Slip</span>
+          </button>
+          <button type="button" id="book-another-btn" class="btn-secondary">
+            <i data-lucide="plus"></i>
+            <span>Book Another RDV</span>
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <!-- Right Column: Live Summary + Check My RDV Lookup -->
+    <aside class="secondary-column no-print">
+      <!-- Clinic & Live Selection Card -->
+      <section class="card side-card summary-card" aria-label="Booking summary">
+        <div class="side-card-header">
+          <i data-lucide="clipboard-list"></i>
+          <h3>Appointment Summary</h3>
+        </div>
+
+        <dl class="summary-list">
+          <div class="summary-row">
+            <dt>Clinic</dt>
+            <dd>Cabinet Santé DZ</dd>
+          </div>
+          <div class="summary-row">
+            <dt>Practitioner</dt>
+            <dd>Dr. Mansouri</dd>
+          </div>
+          <div class="summary-row">
+            <dt>Location</dt>
+            <dd>Batna City, Algeria</dd>
+          </div>
+          <div class="summary-divider"></div>
+          <div class="summary-row">
+            <dt>Consultation</dt>
+            <dd id="side-consultation">—</dd>
+          </div>
+          <div class="summary-row">
+            <dt>Fee</dt>
+            <dd id="side-fee" class="mono-accent">—</dd>
+          </div>
+          <div class="summary-row">
+            <dt>Date</dt>
+            <dd id="side-date">—</dd>
+          </div>
+          <div class="summary-row">
+            <dt>Time Slot</dt>
+            <dd id="side-time" class="mono-text">—</dd>
+          </div>
+          <div class="summary-row">
+            <dt>Visit Type</dt>
+            <dd id="side-visit">First Visit</dd>
+          </div>
+        </dl>
+
+        <div class="clinic-info-note">
+          <i data-lucide="info"></i>
+          <p>Payment is settled directly at reception. Please arrive 10 minutes before your slot.</p>
+        </div>
+      </section>
+
+      <!-- Check My RDV Lookup Box -->
+      <section id="lookup-section" class="card side-card lookup-card" aria-label="Check my appointment">
+        <div class="side-card-header">
+          <i data-lucide="ticket"></i>
+          <h3>Check My RDV</h3>
+        </div>
+        <p class="side-card-desc">
+          Already booked? Enter your reference code (e.g. <span class="mono-inline">RDV-512</span>) or mobile number.
+        </p>
+
+        <form id="lookup-form" class="lookup-form" novalidate>
+          <div class="lookup-input-row">
+            <input
+              type="text"
+              id="lookup-query"
+              name="lookupQuery"
+              placeholder="RDV-512 or 0550..."
+              aria-label="Reference code or phone number"
+              required
+            />
+            <button type="submit" class="btn-secondary">
+              <i data-lucide="search"></i>
+              <span>Find</span>
+            </button>
+          </div>
+        </form>
+
+        <div id="lookup-result" class="lookup-result" aria-live="polite">
+          <!-- Populated by app.js -->
+        </div>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="clinic-footer no-print">
+    <div class="container footer-inner">
+      <span>Cabinet Santé DZ · Dr. Mansouri · Batna City, Algeria</span>
+      <span>Hours: Sat–Thu · 08:30–12:00 &amp; 13:30–17:00 · Closed Fridays</span>
+    </div>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
